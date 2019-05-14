@@ -1,3 +1,6 @@
+package company;
+
+
 public class PieceQuantite {
 
 
