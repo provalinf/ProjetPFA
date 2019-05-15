@@ -4,17 +4,19 @@ package company;
 public class PieceQuantite {
 
 
-    private  int  piece ;
-    private TypeMonnaie  typeMonnaie ;
-    private Symbole symbole ;
-    private  int quantite ;
+    private int piece;
+    private TypeMonnaie typeMonnaie;
+    private Symbole symbole;
+    private int quantite;
 
-    public PieceQuantite(int piece ,int quantite ,Symbole symbole ,TypeMonnaie typeMonnaie){
-        this.piece=piece ;
-        this.quantite=quantite ;
-        this.symbole =symbole ;
-        this.typeMonnaie=typeMonnaie ;
+    public PieceQuantite(int piece, int quantite, Symbole symbole, TypeMonnaie typeMonnaie) {
+        this.piece = piece;
+        this.quantite = quantite;
+        this.symbole = symbole;
+        this.typeMonnaie = typeMonnaie;
     }
+
+
 
 
     public Symbole getSymbole() {

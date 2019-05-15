@@ -48,6 +48,39 @@ public class Euro {
 
     }
 
+    public void affichage(int valeur, List<Integer> list) {
+
+        if( list.isEmpty() ){
+            if(valeur>2){
+                System.out.println("Introduction d’un billet de "+valeur+" euro");
+
+            }else{
+                System.out.println("Introduction d’une piece de "+valeur +"euro");
+            }
+        }else{
+            if(valeur>2){
+                System.out.println("puis d’un billet de "+valeur+" euro");
+
+            }else{
+                System.out.println("puis d’une piece de "+valeur +"euro");
+            }
+        }
+
+    }
+
+
+    public Boolean verifcation(int valeur ){
+
+        for(PieceQuantite pieceQuantite :listEuro){
+            if(pieceQuantite.getPiece()==valeur){
+                return true ;
+            }
+        }
+
+        return false ;
+
+
+    }
 
 
 }

@@ -6,24 +6,24 @@ import java.util.List;
 public class Franc {
 
 
-   private List<PieceQuantite> lisFrancs  ;
+   private List<PieceQuantite> listFrancs  ;
 
 
 
 
 
     public Franc(){
-        this.lisFrancs=initFranc() ;
+        this.listFrancs=initFranc() ;
 
     }
 
 
     public List<PieceQuantite> getLisFrancs() {
-        return lisFrancs;
+        return listFrancs;
     }
 
-    public void setLisFrancs(List<PieceQuantite> lisFrancs) {
-        this.lisFrancs = lisFrancs;
+    public void setLisFrancs(List<PieceQuantite> listFrancs) {
+        this.listFrancs = listFrancs;
     }
 
     public List<PieceQuantite> initFranc(){
@@ -49,6 +49,39 @@ public class Franc {
         list.add(billet50F) ;
 
         return list ;
+
+
+    }
+
+    public void affichage(int valeur, List<Integer> list) {
+
+        if( list.isEmpty() ){
+            if(valeur>5){
+                System.out.println("Introduction d’un billet de "+valeur+" francs");
+
+            }else{
+                System.out.println("Introduction d’une piece de "+valeur +"francs");
+            }
+        }else{
+            if(valeur>2){
+                System.out.println("puis d’un billet de "+valeur+" francs");
+
+            }else{
+                System.out.println("puis d’une piece de "+valeur +"francs");
+            }
+        }
+
+    }
+
+    public Boolean verifcation(int valeur ){
+
+        for(PieceQuantite pieceQuantite :listFrancs){
+            if(pieceQuantite.getPiece()==valeur){
+                return true ;
+            }
+        }
+
+        return false ;
 
 
     }
