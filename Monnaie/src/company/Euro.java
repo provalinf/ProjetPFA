@@ -5,19 +5,16 @@ import java.util.List;
 public class Euro {
 
 
-    private List<PieceQuantite> listEuro ;
+    private List<PieceQuantite> initListEuro ;
 
     public Euro(){
-        listEuro=initEuro() ;
+        initListEuro=initEuro() ;
     }
 
-    public List<PieceQuantite> getListEuro() {
-        return listEuro;
+    public List<PieceQuantite> getInitListEuro() {
+        return initListEuro;
     }
 
-    public void setListEuro(List<PieceQuantite> listEuro) {
-        this.listEuro = listEuro;
-    }
 
     public List<PieceQuantite> initEuro(){
 
@@ -69,9 +66,9 @@ public class Euro {
     }
 
 
-    public Boolean verifcation(int valeur ){
+    public Boolean verification(int valeur ){
 
-        for(PieceQuantite pieceQuantite :listEuro){
+        for(PieceQuantite pieceQuantite :initListEuro){
             if(pieceQuantite.getPiece()==valeur){
                 return true ;
             }

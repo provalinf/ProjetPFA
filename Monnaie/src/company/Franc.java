@@ -6,25 +6,17 @@ import java.util.List;
 public class Franc {
 
 
-   private List<PieceQuantite> listFrancs  ;
-
-
-
-
+   private List<PieceQuantite> initListFrancs  ;
 
     public Franc(){
-        this.listFrancs=initFranc() ;
-
+        this.initListFrancs = initFranc() ;
     }
 
 
-    public List<PieceQuantite> getLisFrancs() {
-        return listFrancs;
+    public List<PieceQuantite> getInitListFrancs() {
+        return initListFrancs;
     }
 
-    public void setLisFrancs(List<PieceQuantite> listFrancs) {
-        this.listFrancs = listFrancs;
-    }
 
     public List<PieceQuantite> initFranc(){
 
@@ -73,9 +65,9 @@ public class Franc {
 
     }
 
-    public Boolean verifcation(int valeur ){
+    public Boolean verification(int valeur ){
 
-        for(PieceQuantite pieceQuantite :listFrancs){
+        for(PieceQuantite pieceQuantite :initListFrancs){
             if(pieceQuantite.getPiece()==valeur){
                 return true ;
             }
@@ -85,6 +77,7 @@ public class Franc {
 
 
     }
+
 
 
 
