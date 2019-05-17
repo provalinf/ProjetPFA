@@ -9,18 +9,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MachineConversion {
-
 	private static Scanner scanner = new Scanner(System.in);
 
-	private Devise devise;
 	private static final String EURO_FRANCS = "get-chef";
 	private static final String FRANCS_EURO = "get-euros";
-	private final String end = "end";
-	private String saisie;
+	private static final String END = "end";
 
-	private List<Integer> monnaieListUser = new ArrayList<>();
-
-	public int conversion() {
+	public void conversion() {
+		String saisie;
 		do {
 			System.out.println("En quelle devise faire la conversion ?");
 			System.out.println("\t- Si Euro vers Franc-Suisse tapez : " + EURO_FRANCS);
@@ -29,8 +25,8 @@ public class MachineConversion {
 		} while (!(saisie.equals(EURO_FRANCS)) && !(saisie.equals(FRANCS_EURO)));
 
 		// Avant d'entrer dans le switch, on est sur que l'utilisateur a bien précisé la monnaie
-		monnaieListUser = new ArrayList<>();
-		devise = saisie.equals(EURO_FRANCS) ? new Euro() : new Franc();
+		List<Integer> monnaieListUser = new ArrayList<>();
+		Devise devise = saisie.equals(EURO_FRANCS) ? new Euro() : new Franc();
 
 		// une boucle pour introduire toutes les pieces dans la machine
 		System.out.println("OK. Ce sont des " + devise.getNomDevise() + " qui vont être introduits par l’utilisateur");
@@ -51,7 +47,7 @@ public class MachineConversion {
 					break;
 				}
 			} catch (NumberFormatException e) {
-				if (saisie.equals("end")) {
+				if (saisie.equals("END")) {
 					System.out.println("Conversion en cours ...");
 
 				} else if (saisie.equals("cancel")) {
@@ -67,15 +63,13 @@ public class MachineConversion {
 				}
 			}
 
-		} while (!end.equals(saisie));
+		} while (!END.equals(saisie));
 
 		// CONVERSION A FAIRE ICI
-
-		return 0;
 	}
 
 	// affiche une liste dont la tete est le type de monnaie suivi des pieces introduites par l'utilisateur
-	public void afficherListe(String typeMonnaie, List<Integer> list) {
+	private void afficherListe(String typeMonnaie, List<Integer> list) {
 		System.out.print("(" + typeMonnaie + "\t");
 		list.forEach(e -> System.out.print(e + " "));
 		System.out.println(")");
