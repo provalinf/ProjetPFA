@@ -11,9 +11,10 @@ import java.util.Scanner;
 public class MachineConversion {
 	private static Scanner scanner = new Scanner(System.in);
 
-	private static final String EURO_FRANCS = "get-chef";
+	private static final String EURO_FRANCS = "get-chf";
 	private static final String FRANCS_EURO = "get-euros";
 	private static final String END = "end";
+	private static final String CANCEL = "cancel";
 
 	public void conversion() {
 		String saisie;
@@ -25,7 +26,7 @@ public class MachineConversion {
 		} while (!(saisie.equals(EURO_FRANCS)) && !(saisie.equals(FRANCS_EURO)));
 
 		// Avant d'entrer dans le switch, on est sur que l'utilisateur a bien précisé la monnaie
-		List<Integer> monnaieListUser = new ArrayList<>();
+		List<Double> monnaieListUser = new ArrayList<>();
 		Devise devise = saisie.equals(EURO_FRANCS) ? new Euro() : new Franc();
 
 		// une boucle pour introduire toutes les pieces dans la machine
@@ -35,11 +36,9 @@ public class MachineConversion {
 			saisie = scanner.nextLine();
 
 			try {
-				int piece = Integer.parseInt(saisie);
-				if (devise.verification(piece)) {
-					// appel de la methode affichage dans l'objet pieceQuantite
-					devise.affichage(piece, monnaieListUser);
-					monnaieListUser.add(piece);
+				if (devise.verification(saisie)) {
+					// appel de la methode affichageEtAjout dans l'objet pieceQuantite
+					devise.affichageEtAjout(Double.parseDouble(saisie), monnaieListUser);
 				} else {
 					System.out.println("Mauvais montant !!!");
 					System.out.println("Transaction invalidée !!!");
@@ -47,10 +46,10 @@ public class MachineConversion {
 					break;
 				}
 			} catch (NumberFormatException e) {
-				if (saisie.equals("END")) {
+				if (saisie.equals(END)) {
 					System.out.println("Conversion en cours ...");
 
-				} else if (saisie.equals("cancel")) {
+				} else if (saisie.equals(CANCEL)) {
 					System.out.println("Vous avez demandé l'annulation de la conversion");
 					System.out.println("Transaction invalidée !!!");
 					afficherListe(devise.getNomDevise(), monnaieListUser);
@@ -63,13 +62,13 @@ public class MachineConversion {
 				}
 			}
 
-		} while (!END.equals(saisie));
+		} while (!saisie.equals(END) && !saisie.equals(CANCEL));
 
 		// CONVERSION A FAIRE ICI
 	}
 
 	// affiche une liste dont la tete est le type de monnaie suivi des pieces introduites par l'utilisateur
-	private void afficherListe(String typeMonnaie, List<Integer> list) {
+	private void afficherListe(String typeMonnaie, List<Double> list) {
 		System.out.print("(" + typeMonnaie + "\t");
 		list.forEach(e -> System.out.print(e + " "));
 		System.out.println(")");
