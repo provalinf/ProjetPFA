@@ -1,6 +1,6 @@
 package company;
 
 public enum TypeMonnaie {
-    BILLET,
-    PIECE
+	BILLET,
+	PIECE
 }

@@ -2,15 +2,9 @@ package company;
 
 public class Main {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
+		MachineConversion machineConversion = new MachineConversion();
+		machineConversion.conversion();
 
-
-        MachineConversion machineConversion= new MachineConversion() ;
-
-        machineConversion.conversion() ;
-
-
-
-
-    }
+	}
 }
