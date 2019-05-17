@@ -24,28 +24,30 @@ public abstract class Devise {
 		Collections.addAll(ListPieces, pieces);
 	}
 
+	public String getNomDevise() {
+		return nomDevise;
+	}
+
 	public void affichage(int valeur, List<Integer> list) {
 		if (list.isEmpty()) {
 			if (valeur > 2) {
-				System.out.println("Introduction d’un billet de " + valeur + " " + nomDevise);
+				System.out.println("Introduction d’un billet de " + valeur + " " + getNomDevise());
 			} else {
-				System.out.println("Introduction d’une piece de " + valeur + " " + nomDevise);
+				System.out.println("Introduction d’une piece de " + valeur + " " + getNomDevise());
 			}
 		} else {
 			if (valeur > 2) {
-				System.out.println("puis d’un billet de " + valeur + " " + nomDevise);
+				System.out.println("puis d’un billet de " + valeur + " " + getNomDevise());
 			} else {
-				System.out.println("puis d’une piece de " + valeur + " " + nomDevise);
+				System.out.println("puis d’une piece de " + valeur + " " + getNomDevise());
 			}
 		}
 	}
 
 	public Boolean verification(int valeur) {
-		for (PieceQuantite pieceQuantite : getListPieces()) {
-			if (pieceQuantite.getPiece() == valeur) {
+		for (PieceQuantite pieceQuantite : getListPieces())
+			if (pieceQuantite.getPiece() == valeur)
 				return true;
-			}
-		}
 		return false;
 	}
 }

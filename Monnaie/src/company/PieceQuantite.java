@@ -3,7 +3,6 @@ package company;
 
 public class PieceQuantite {
 
-
 	private int piece;
 	private TypeMonnaie typeMonnaie;
 	private Symbole symbole;
@@ -15,7 +14,6 @@ public class PieceQuantite {
 		this.symbole = symbole;
 		this.typeMonnaie = typeMonnaie;
 	}
-
 
 	public Symbole getSymbole() {
 		return symbole;

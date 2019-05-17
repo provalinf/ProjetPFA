@@ -7,7 +7,7 @@ import company.TypeMonnaie;
 public class Franc extends Devise {
 
 	public Franc() {
-		super("Franc");
+		super("CHF");
 		initPieceEuro();
 	}
 
