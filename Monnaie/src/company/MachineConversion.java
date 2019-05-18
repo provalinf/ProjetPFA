@@ -131,7 +131,7 @@ public class MachineConversion {
 
             System.out.println(" debut la taill =="+taill);
 
-            motantPieceCourante =(double)franc.getListPieces().get(taill).getPiece() ;
+            motantPieceCourante =franc.getListPieces().get(taill).getPiece() ;
             System.out.println(motantPieceCourante);
             if (motantPieceCourante <= sommeFrancs) {
                 // un teste pour savoir si y as des pieces  dans la machine
@@ -167,7 +167,7 @@ public class MachineConversion {
 
                     }else{
 
-                        if(taill>0){
+                        if(taill>1){
                             taill-- ;
                         }else{
                             fin=true ;
@@ -195,6 +195,9 @@ public class MachineConversion {
                 }
 
 
+            }
+            if(taill<0){
+                return listFrancs ;
             }
 
         }

@@ -22,6 +22,12 @@ public class Main {
 
 
 
+	  for(PieceQuantite pieceQuantite:pieceQuantites){
+		  System.out.println("("+pieceQuantite.getPiece()+","+pieceQuantite.getQuantite()+","+pieceQuantite.getSymbole()+","+pieceQuantite.getTypeMonnaie());
+	  }
+
+
+
 		//MachineConversion machineConversion = new MachineConversion();
 		//machineConversion.conversion();
 	}

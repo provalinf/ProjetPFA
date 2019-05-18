@@ -3,13 +3,13 @@ package company;
 
 public class PieceQuantite {
 
-	private int montant;
+	private double piece;
 	private TypeMonnaie typeMonnaie;
 	private Symbole symbole;
 	private int quantite;
 
-	public PieceQuantite(int montant, int quantite, Symbole symbole, TypeMonnaie typeMonnaie) {
-		this.montant = montant;
+	public PieceQuantite(double piece, int quantite, Symbole symbole, TypeMonnaie typeMonnaie) {
+		this.piece = piece;
 		this.quantite = quantite;
 		this.symbole = symbole;
 		this.typeMonnaie = typeMonnaie;
@@ -23,12 +23,13 @@ public class PieceQuantite {
 		this.symbole = symbole;
 	}
 
-	public int getMontant() {
-		return montant;
+
+	public double getPiece() {
+		return piece;
 	}
 
-	public void setMontant(int montant) {
-		this.montant = montant;
+	public void setPiece(double piece) {
+		this.piece = piece;
 	}
 
 	public int getQuantite() {
