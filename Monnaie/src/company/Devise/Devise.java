@@ -1,6 +1,7 @@
 package company.Devise;
 
 import company.PieceQuantite;
+import company.Symbole;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,9 +10,9 @@ import java.util.List;
 public abstract class Devise {
 
 	private List<PieceQuantite> ListPieces;
-	private String nomDevise;
+	private Symbole nomDevise;
 
-	public Devise(String nomDevise) {
+	public Devise(Symbole nomDevise) {
 		ListPieces = new ArrayList<>();
 		this.nomDevise = nomDevise;
 	}
@@ -24,7 +25,7 @@ public abstract class Devise {
 		Collections.addAll(ListPieces, pieces);
 	}
 
-	public String getNomDevise() {
+	public Symbole getNomDevise() {
 		return nomDevise;
 	}
 

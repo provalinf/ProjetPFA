@@ -38,4 +38,12 @@ public class PieceQuantite {
 	public void setQuantite(int quantite) {
 		this.quantite = quantite;
 	}
+
+	public TypeMonnaie getTypeMonnaie() {
+		return typeMonnaie;
+	}
+
+	public void setTypeMonnaie(TypeMonnaie typeMonnaie) {
+		this.typeMonnaie = typeMonnaie;
+	}
 }

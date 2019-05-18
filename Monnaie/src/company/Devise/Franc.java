@@ -7,7 +7,7 @@ import company.TypeMonnaie;
 public class Franc extends Devise {
 
 	public Franc() {
-		super("CHF");
+		super(Symbole.FRANC);
 		initPieceEuro();
 	}
 
@@ -19,7 +19,7 @@ public class Franc extends Devise {
 		PieceQuantite billet10F = new PieceQuantite(10, 5, Symbole.FRANC, TypeMonnaie.BILLET);
 		PieceQuantite billet20F = new PieceQuantite(20, 5, Symbole.FRANC, TypeMonnaie.BILLET);
 		PieceQuantite billet50F = new PieceQuantite(50, 5, Symbole.FRANC, TypeMonnaie.BILLET);
-		PieceQuantite billet100F = new PieceQuantite(50, 4, Symbole.FRANC, TypeMonnaie.BILLET);
+		PieceQuantite billet100F = new PieceQuantite(100, 4, Symbole.FRANC, TypeMonnaie.BILLET);
 
 		addPieceToList(piece50F_C, piece1F, piece2F, billet5F, billet10F, billet20F, billet50F, billet100F);
 	}
