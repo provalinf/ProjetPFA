@@ -65,7 +65,7 @@ public class MachineConversion {
 		// une boucle pour introduire toutes les pieces dans la machine
 		System.out.println("OK. Ce sont des " + devise.getNomDevise() + " qui vont être introduits par l’utilisateur");
 		do {
-			System.out.println("Veuillez introduire une piece ou un billet :");
+			System.out.println("Veuillez introduire une piece ou un billet : (end pour terminer, cancel pour annuler)");
 			saisie = scanner.nextLine();
 
 			try {
