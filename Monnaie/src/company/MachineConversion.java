@@ -131,7 +131,7 @@ public class MachineConversion {
 		double montantConv; // montant converti
 		int nbPiecesCentimes;
 
-		if (devise.getNomDevise() == Devise.CodeISO.EUR) {
+		if (devise.getNomDevise() != Devise.CodeISO.EUR) {
 			montantConv = montant * 1.12;
 			nbPiecesCentimes = 1;
 		} else {
@@ -143,7 +143,7 @@ public class MachineConversion {
 		int partieFract = new Double(((montantConv - partieEntiere) * 100)).intValue();
 
 		// Afficher le montant converti
-		System.out.println(partieEntiere + "\t" + devise.getNomDevise() + ((partieFract != 0) ? "" : "\t" + partieFract + " Centimes"));
+		System.out.println(partieEntiere + "\t" + devise.getNomDevise() + ((partieFract == 0) ? "" : "\t" + partieFract + " Centimes"));
 
 		PieceQuantite piece = new PieceQuantite();
 		// retourne les pieces necessaires pour la partie entiere du montant converti
