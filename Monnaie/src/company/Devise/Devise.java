@@ -11,10 +11,15 @@ import java.util.Locale;
 
 public abstract class Devise {
 
-	private List<PieceQuantite> ListPieces;
-	private String nomDevise;
+	public enum CodeISO {
+		EUR,
+		CHF
+	}
 
-	public Devise(String nomDevise) {
+	private List<PieceQuantite> ListPieces;
+	private CodeISO nomDevise;
+
+	public Devise(CodeISO nomDevise) {
 		ListPieces = new ArrayList<>();
 		this.nomDevise = nomDevise;
 	}
@@ -31,7 +36,7 @@ public abstract class Devise {
 		Collections.addAll(ListPieces, pieces);
 	}
 
-	public String getNomDevise() {
+	public CodeISO getNomDevise() {
 		return nomDevise;
 	}
 
