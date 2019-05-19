@@ -11,18 +11,24 @@ import java.util.stream.Collectors;
 
 public class MachineConversion {
     private static Scanner scanner = new Scanner(System.in);
+    private static Scanner scannerMaster = new Scanner(System.in);
 
     private static final String EURO_FRANCS = "get-chf";
     private static final String FRANCS_EURO = "get-euros";
     private static final String END = "end";
     private static final String CANCEL = "cancel";
+    private static final String FIN = "fin";
+    public  static  boolean QUITTER = false;
 
-    private Euro euro ;
-    private Franc franc ;
+    private static final String MASTER="master_players" ;
 
-    public MachineConversion(){
-        euro=new Euro() ;
-        franc=new Franc() ;
+
+    private Euro euro;
+    private Franc franc;
+
+    public MachineConversion() {
+        euro = new Euro();
+        franc = new Franc();
     }
 
 
@@ -32,80 +38,106 @@ public class MachineConversion {
             System.out.println("En quelle devise faire la conversion ?");
             System.out.println("\t- Si Euro vers Franc-Suisse tapez : " + EURO_FRANCS);
             System.out.println("\t- Si Franc-Suisse vers Euro tapez : " + FRANCS_EURO);
+            System.out.println("\t- Pour arreter la machine tapez  : " + FIN);
             saisie = scanner.nextLine();
-        } while (!(saisie.equals(EURO_FRANCS)) && !(saisie.equals(FRANCS_EURO)));
+            if(saisie.equals(FIN)){
+                System.out.println(" Entrer  mot de passer ADMIN svp :") ;
 
-        // Avant d'entrer dans le switch, on est sur que l'utilisateur a bien précisé la monnaie
-        List<Double> monnaieListUser = new ArrayList<>();
-        Devise devise = saisie.equals(EURO_FRANCS) ? euro : franc;
-        // devise inverse a celle des pieces introduites
-        Devise deviseInv = saisie.equals(EURO_FRANCS) ? franc : euro;
-        // une boucle pour introduire toutes les pieces dans la machine
-        System.out.println("OK. Ce sont des " + devise.getNomDevise() + " qui vont être introduits par l’utilisateur");
-        do {
-            System.out.println("Veuillez introduire une piece ou un billet :");
-            saisie = scanner.nextLine();
+                String master =scannerMaster.nextLine() ;
+                if(master.equals(MASTER)){
+                    System.out.println();
+                    System.out.println(" je verifie toujours ce qui a en dessous de mon lit avant de dormire le soir    ");
 
-            try {
-                if (devise.verification(saisie)) {
-                    // appel de la methode affichageEtAjout dans l'objet pieceQuantite
-                    devise.affichageEtAjout(Double.parseDouble(saisie), monnaieListUser);
-                } else {
-                    System.out.println("Mauvais montant !!!");
-                    System.out.println("Transaction invalidée !!!");
-                    afficherListe(devise.getNomDevise(), monnaieListUser);
-                    break;
+                    System.out.println();
+                    System.out.println();
+                    QUITTER=true ;
+
+                }else{
+                    System.out.println();
+                    System.out.println("          F**K");
+                    System.out.println();
                 }
-            } catch (NumberFormatException e) {
-                if (saisie.equals(END)) {
-                    System.out.println("Conversion en cours ...");
 
-                } else if (saisie.equals(CANCEL)) {
-                    System.out.println("Vous avez demandé l'annulation de la conversion");
-                    System.out.println("Transaction invalidée !!!");
-                    afficherListe(devise.getNomDevise(), monnaieListUser);
-                    break;
-                } else {
-                    System.out.println("Symbole inconnu !!!");
-                    System.out.println("Transaction invalidée !!!");
-                    afficherListe(devise.getNomDevise(), monnaieListUser);
-                    break;
-                }
+
             }
 
-        } while (!saisie.equals(END) && !saisie.equals(CANCEL));
 
-        // CONVERSION A FAIRE ICI
 
-        if (saisie.equals(END)) {
-            double somme = monnaieListUser.stream().reduce(0.0, (t1, t2) -> t1 + t2);
+        } while (!(saisie.equals(EURO_FRANCS)) && !(saisie.equals(FRANCS_EURO)) && (!QUITTER) );
 
-            switch (devise.getNomDevise()) {
-                case "EUR":
-                    if (convert("euroToFranc", somme, deviseInv)) {
-                        maj_stock_pieces(devise, monnaieListUser);
+        if(!QUITTER) {
+
+            // Avant d'entrer dans le switch, on est sur que l'utilisateur a bien précisé la monnaie
+            List<Double> monnaieListUser = new ArrayList<>();
+            Devise devise = saisie.equals(EURO_FRANCS) ? euro : franc;
+            // devise inverse a celle des pieces introduites
+            Devise deviseInv = saisie.equals(EURO_FRANCS) ? franc : euro;
+            // une boucle pour introduire toutes les pieces dans la machine
+            System.out.println("OK. Ce sont des " + devise.getNomDevise() + " qui vont être introduits par l’utilisateur");
+            do {
+                System.out.println("Veuillez introduire une piece ou un billet :");
+                saisie = scanner.nextLine();
+
+                try {
+                    if (devise.verification(saisie)) {
+                        // appel de la methode affichageEtAjout dans l'objet pieceQuantite
+                        devise.affichageEtAjout(Double.parseDouble(saisie), monnaieListUser);
                     } else {
-                        System.out.println("Montant Indisponible");
+                        System.out.println("Mauvais montant !!!");
                         System.out.println("Transaction invalidée !!!");
                         afficherListe(devise.getNomDevise(), monnaieListUser);
+                        break;
                     }
+                } catch (NumberFormatException e) {
+                    if (saisie.equals(END)) {
+                        System.out.println("Conversion en cours ...");
 
-                    break;
-                case "CHF":
-                    if (convert("francToEuro", somme, deviseInv)) {
-                        maj_stock_pieces(devise, monnaieListUser);
-                    } else {
-                        System.out.println("Montant Indisponible");
+                    } else if (saisie.equals(CANCEL)) {
+                        System.out.println("Vous avez demandé l'annulation de la conversion");
                         System.out.println("Transaction invalidée !!!");
                         afficherListe(devise.getNomDevise(), monnaieListUser);
+                        break;
+                    } else {
+                        System.out.println("Symbole inconnu !!!");
+                        System.out.println("Transaction invalidée !!!");
+                        afficherListe(devise.getNomDevise(), monnaieListUser);
+                        break;
                     }
+                }
 
-                    break;
+            } while (!saisie.equals(END) && !saisie.equals(CANCEL));
+
+            // CONVERSION A FAIRE ICI
+
+            if (saisie.equals(END)) {
+                double somme = monnaieListUser.stream().reduce(0.0, (t1, t2) -> t1 + t2);
+
+                switch (devise.getNomDevise()) {
+                    case "EUR":
+                        if (convert("euroToFranc", somme, deviseInv)) {
+                            maj_stock_pieces(devise, monnaieListUser);
+                        } else {
+                            System.out.println("Montant Indisponible");
+                            System.out.println("Transaction invalidée !!!");
+                            afficherListe(devise.getNomDevise(), monnaieListUser);
+                        }
+
+                        break;
+                    case "CHF":
+                        if (convert("francToEuro", somme, deviseInv)) {
+                            maj_stock_pieces(devise, monnaieListUser);
+                        } else {
+                            System.out.println("Montant Indisponible");
+                            System.out.println("Transaction invalidée !!!");
+                            afficherListe(devise.getNomDevise(), monnaieListUser);
+                        }
+
+                        break;
+                }
+
             }
 
         }
-
-
     }
 
     // affiche une liste dont la tete est le type de monnaie suivi des pieces introduites par l'utilisateur
@@ -228,7 +260,6 @@ public class MachineConversion {
                             && (t.getMontant() == pieceQuantite.getMontant())).
                     collect(Collectors.toList()).get(0);
             p.setQuantite(p.getQuantite() + 1);
-
 
 
         }
