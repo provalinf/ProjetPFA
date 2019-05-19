@@ -7,21 +7,24 @@ import company.Devise.Franc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class MachineConversion {
     private static Scanner scanner = new Scanner(System.in);
 
-    private Euro euro;
-    private Franc franc;
-
-    public MachineConversion(Euro euro , Franc franc) {
-        this.euro = euro;
-        this.franc = franc;
-    }
-
-    private static final String EURO_FRANCS = "get-chef";
+    private static final String EURO_FRANCS = "get-chf";
     private static final String FRANCS_EURO = "get-euros";
     private static final String END = "end";
+    private static final String CANCEL = "cancel";
+
+    private Euro euro ;
+    private Franc franc ;
+
+    public MachineConversion(){
+        euro=new Euro() ;
+        franc=new Franc() ;
+    }
+
 
     public void conversion() {
         String saisie;
@@ -33,9 +36,10 @@ public class MachineConversion {
         } while (!(saisie.equals(EURO_FRANCS)) && !(saisie.equals(FRANCS_EURO)));
 
         // Avant d'entrer dans le switch, on est sur que l'utilisateur a bien précisé la monnaie
-        List<Integer> monnaieListUser = new ArrayList<>();
-        Devise devise = saisie.equals(EURO_FRANCS) ? new Euro() : new Franc();
-
+        List<Double> monnaieListUser = new ArrayList<>();
+        Devise devise = saisie.equals(EURO_FRANCS) ? euro : franc;
+        // devise inverse a celle des pieces introduites
+        Devise deviseInv = saisie.equals(EURO_FRANCS) ? franc : euro;
         // une boucle pour introduire toutes les pieces dans la machine
         System.out.println("OK. Ce sont des " + devise.getNomDevise() + " qui vont être introduits par l’utilisateur");
         do {
@@ -43,11 +47,9 @@ public class MachineConversion {
             saisie = scanner.nextLine();
 
             try {
-                int piece = Integer.parseInt(saisie);
-                if (devise.verification(piece)) {
-                    // appel de la methode affichage dans l'objet pieceQuantite
-                    devise.affichage(piece, monnaieListUser);
-                    monnaieListUser.add(piece);
+                if (devise.verification(saisie)) {
+                    // appel de la methode affichageEtAjout dans l'objet pieceQuantite
+                    devise.affichageEtAjout(Double.parseDouble(saisie), monnaieListUser);
                 } else {
                     System.out.println("Mauvais montant !!!");
                     System.out.println("Transaction invalidée !!!");
@@ -55,10 +57,10 @@ public class MachineConversion {
                     break;
                 }
             } catch (NumberFormatException e) {
-                if (saisie.equals("END")) {
+                if (saisie.equals(END)) {
                     System.out.println("Conversion en cours ...");
 
-                } else if (saisie.equals("cancel")) {
+                } else if (saisie.equals(CANCEL)) {
                     System.out.println("Vous avez demandé l'annulation de la conversion");
                     System.out.println("Transaction invalidée !!!");
                     afficherListe(devise.getNomDevise(), monnaieListUser);
@@ -71,139 +73,166 @@ public class MachineConversion {
                 }
             }
 
-        } while (!END.equals(saisie));
+        } while (!saisie.equals(END) && !saisie.equals(CANCEL));
 
         // CONVERSION A FAIRE ICI
+
+        if (saisie.equals(END)) {
+            double somme = monnaieListUser.stream().reduce(0.0, (t1, t2) -> t1 + t2);
+
+            switch (devise.getNomDevise()) {
+                case "EUR":
+                    if (convert("euroToFranc", somme, deviseInv)) {
+                        maj_stock_pieces(devise, monnaieListUser);
+                    } else {
+                        System.out.println("Montant Indisponible");
+                        System.out.println("Transaction invalidée !!!");
+                        afficherListe(devise.getNomDevise(), monnaieListUser);
+                    }
+
+                    break;
+                case "CHF":
+                    if (convert("francToEuro", somme, deviseInv)) {
+                        maj_stock_pieces(devise, monnaieListUser);
+                    } else {
+                        System.out.println("Montant Indisponible");
+                        System.out.println("Transaction invalidée !!!");
+                        afficherListe(devise.getNomDevise(), monnaieListUser);
+                    }
+
+                    break;
+            }
+
+        }
+
+
     }
 
     // affiche une liste dont la tete est le type de monnaie suivi des pieces introduites par l'utilisateur
-    private void afficherListe(Symbole typeMonnaie, List<Integer> list) {
-        switch (typeMonnaie){
-            case EURO:
-                System.out.print("(EURO \t");
-                list.forEach(e -> System.out.print(e + " "));
-                System.out.println(")");break;
-            case FRANC:
-                System.out.print("(FRANCS \t");
-                list.forEach(e -> System.out.print(e + " "));
-                System.out.println(")");break;
-
-            default:
-                System.out.println(" erreur y as  d autre devise ");break;
-        }
-
-
+    private void afficherListe(String typeMonnaie, List<Double> list) {
+        System.out.print("(" + typeMonnaie + "\t");
+        list.forEach(e -> {
+            if (e < 1.0)
+                System.out.print(e + " ");
+            else
+                System.out.print(e.intValue() + " ");
+        });
+        System.out.println(")");
     }
 
+    // convert euro to franc
+    public boolean convert(String codeConversion, double montant, Devise devise) {
+        List<Double> result = new ArrayList<>();
+        List<PieceQuantite> list = devise.getListPieces();
+        Double montantConv; // montant converti
+        int nbPiecesCentimes;
 
-    public List<PieceQuantite> conversionEuroversFrancs(List<Integer> list) {
-
-        // init de la liste a renvoyer
-
-        List<PieceQuantite> listFrancs = new ArrayList<>();
-
-        // je cree une variable taill , parce que le plus grand element de ma liste ce trouve dans
-        // la dernier positon  de ma liste
-        int taill = franc.getListPieces().size() - 1;
-
-        // la somme du mantant qu'il a saisie
-        double somme = 0;
-        for (int i : list) {
-            somme += i;
+        if (codeConversion.equals("euroToFranc")) {
+            montantConv = montant * 1.12;
+            nbPiecesCentimes = 1;
+        } else {
+            montantConv = montant / 1.12;
+            nbPiecesCentimes = 3;
         }
+        int partieEntiere = montantConv.intValue();
+        int partieFract = new Double(((montantConv - partieEntiere) * 100)).intValue();
 
-        // la conversion  de la somme vers le francs
-        double sommeFrancs = somme * 1.1;
+        System.out.println(partieEntiere + "\t" + devise.getNomDevise() + "\t" + partieFract + " Centimes");
+        PieceQuantite piece;
+        // retourne les pieces necessaires pour la partie entiere du montant converti
+        for (int i = list.size() - 1; list.get(i).getSymbole() != Symbole.CENTIME; i--) {
+            piece = list.get(i);
 
+            while ((piece.getQuantite() > 0) && (partieEntiere - piece.getMontant() >= 0)) {
+                partieEntiere -= piece.getMontant();
+                piece.setQuantite(piece.getQuantite() - 1);
+                result.add(Double.parseDouble(Integer.toString(piece.getMontant())));
 
-
-        System.out.println(sommeFrancs);
-
-        double motantPieceCourante  ;
-
-
-
-        boolean fin = false;
-
-        while (!fin) {
-
-            System.out.println("------------------------------------------------");
-
-            System.out.println(" debut la taill =="+taill);
-
-            motantPieceCourante =franc.getListPieces().get(taill).getPiece() ;
-            System.out.println(motantPieceCourante);
-            if (motantPieceCourante <= sommeFrancs) {
-                // un teste pour savoir si y as des pieces  dans la machine
-                if (franc.getListPieces().get(taill).getQuantite() >= 1) {
-                    int quantite = (int) (sommeFrancs / motantPieceCourante);
-
-                    // la on verfie si la quantié retourner exsite dans la machine
-
-                    if (quantite <= franc.getListPieces().get(taill).getQuantite()) {
-
-                        franc.getListPieces().get(taill).setQuantite(franc.getListPieces().get(taill).getQuantite() - quantite);
-
-                        //ajout de l'objet a ma list
-
-                        listFrancs.add(new PieceQuantite(franc.getListPieces().get(taill).getPiece() ,
-                                                         quantite,
-                                                         Symbole.FRANC,
-                                                         franc.getListPieces().get(taill).getTypeMonnaie()));
-
-                        // decrementer la sommeFrancs  maitenant
-                        System.out.println(" add : ("+franc.getListPieces().get(taill).getPiece()+","+ quantite+","+ Symbole.FRANC+","+ franc.getListPieces().get(taill).getTypeMonnaie()+")" );
-
-                        sommeFrancs = sommeFrancs - (motantPieceCourante*quantite) ;
-
-                        System.out.println("somme Francs qui reste a transformer  ="+sommeFrancs);
-
-                            // decrementation de la indice
-                            taill-- ;
-
-
-                        System.out.println("taill apres ="+taill);
-
-
-                    }else{
-
-                        if(taill>1){
-                            taill-- ;
-                        }else{
-                            fin=true ;
-                        }
-
-                    }
-
-
-                }else{
-                    if(taill > 0){
-                        taill-- ;
-                    }else{
-                        fin=true ;
-                    }
-                }
-
-
-            }else{
-                if(taill>0){
-
-                    taill-- ;
-                }else{
-                    System.out.println("je suis dans le dernier element de la liste faut faire le round ");
-                    fin=true ;
-                }
-
-
-            }
-            if(taill<0){
-                return listFrancs ;
             }
 
         }
+        // retourne les pieces necessaires pour la partie fractionnaire du montant conerti
+        for (int i = nbPiecesCentimes - 1; i >= 0; i--) {
+            piece = list.get(i);
+
+            while ((piece.getQuantite() > 0) && (partieFract - piece.getMontant() >= 0)) {
+                partieFract -= piece.getMontant();
+                piece.setQuantite(piece.getQuantite() - 1);
+                result.add(Double.parseDouble("0." + piece.getMontant()));
+
+            }
+        }
+
+        afficherListe(devise.getNomDevise(), result);
+
+        // Montant indisponible
+        if (partieEntiere != 0)
+            return false;
+
+        // AUTRES CAS SUR LE ROUND ICI
+
+        // la liste est
+        devise.setListPieces(list);
+
+        return true;
+    }
+
+    public void maj_stock_pieces(Devise devise, List<Double> monnaieListUser) {
+
+        // rajouter les pieces introduites au stock de depart
+        for (int i = 0; i < monnaieListUser.size(); i++) {
+            PieceQuantite pieceQuantite = new PieceQuantite();
+            pieceQuantite.setQuantite(1);
+
+            if (monnaieListUser.get(i) >= 10.0) {
+                pieceQuantite.setMontant(monnaieListUser.get(i).intValue());
+                pieceQuantite.setTypeMonnaie(TypeMonnaie.BILLET);
+                switch (devise.getNomDevise()) {
+                    case "EUR":
+                        pieceQuantite.setSymbole(Symbole.EURO);
+                        break;
+
+                    case "CHF":
+                        pieceQuantite.setSymbole(Symbole.FRANC);
+                        break;
+                }
+
+            } else {
+                pieceQuantite.setTypeMonnaie(TypeMonnaie.PIECE);
+
+                if (monnaieListUser.get(i) < 1.0) {
+                    pieceQuantite.setSymbole(Symbole.CENTIME);
+                    Double montant = monnaieListUser.get(i) * 100;
+                    pieceQuantite.setMontant(montant.intValue());
+                } else {
+                    pieceQuantite.setMontant(monnaieListUser.get(i).intValue());
+                    switch (devise.getNomDevise()) {
+                        case "EUR":
+                            if (monnaieListUser.get(i) == 5)
+                                pieceQuantite.setTypeMonnaie(TypeMonnaie.BILLET);
+                            pieceQuantite.setSymbole(Symbole.EURO);
+                            break;
+
+                        case "CHF":
+                            pieceQuantite.setSymbole(Symbole.FRANC);
+                            break;
+
+                    }
+                }
+
+            }
+
+            PieceQuantite p = devise.getListPieces().stream().
+                    filter(t -> (t.getTypeMonnaie() == pieceQuantite.getTypeMonnaie())
+                            && (t.getSymbole() == pieceQuantite.getSymbole())
+                            && (t.getMontant() == pieceQuantite.getMontant())).
+                    collect(Collectors.toList()).get(0);
+            p.setQuantite(p.getQuantite() + 1);
 
 
-        return listFrancs;
+
+        }
     }
 
 }
+
