@@ -176,4 +176,80 @@ class MachineConversionTest {
         m.afficherListe(Devise.CodeISO.CHF, l2);
         assertEquals("(CHF\t0.5 0.5 0.5 2 2 20 100 )",systemOutContent2.toString().trim());
     }
+
+    @Test
+    void conversion() {
+
+        StringBuilder keyboard = new StringBuilder();
+        keyboard.append("get-chf");
+        keyboard.append(System.lineSeparator());
+        keyboard.append(50);
+        keyboard.append(System.lineSeparator());
+        keyboard.append(20);
+        keyboard.append(System.lineSeparator());
+        keyboard.append("end");
+        //keyboard.append("fin");
+
+        System.setIn(new ByteArrayInputStream(keyboard.toString().getBytes()));
+        ByteArrayOutputStream systemOutContent2 = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent2));
+        String newLine = System.getProperty("line.separator");
+
+        MachineConversion machineConversion = new MachineConversion();
+        machineConversion.conversion();
+        int lenght  =("78\tCHF\\t40 Centimes (CHF\\t50 20 5 2 1 )").length();
+        int taille = systemOutContent2.toString().length();
+        //assertTrue(systemOutContent2.toString().endsWith("78\tCHF\t40 Centimes (CHF\t50 20 5 2 1 )"));
+        //System.out.println(systemOutContent2.toString().trim().replaceAll(newLine," "));
+        assertEquals("78\tCHF\t40 Centimes (CHF\t50 20 5 2 1 )",systemOutContent2.toString().substring(taille-lenght+1,taille+lenght-40).trim().replaceAll(newLine," "));
+
+        try {
+            systemOutContent2.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+
+
+    @Test
+    void conversionInvalide() {
+
+        StringBuilder keyboard = new StringBuilder();
+        keyboard.append("get-euros");
+        keyboard.append(System.lineSeparator());
+        keyboard.append(1000);
+        keyboard.append(System.lineSeparator());
+        //  keyboard.append(20);
+        //keyboard.append(System.lineSeparator());
+        keyboard.append("end");
+        System.setIn(new ByteArrayInputStream(keyboard.toString().getBytes()));
+
+
+        System.setIn(new ByteArrayInputStream(keyboard.toString().getBytes()));
+        ByteArrayOutputStream systemOutContent2 = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent2));
+        String newLine = System.getProperty("line.separator");
+
+        MachineConversion mc3 = new MachineConversion();
+        mc3.conversion();
+
+        int lenght  =("Mauvais montant !!!\nTransaction invalidée !!!").length();
+        int taille = systemOutContent2.toString().length();
+        //assertTrue(systemOutContent2.toString().endsWith("78\tCHF\t40 Centimes (CHF\t50 20 5 2 1 )"));
+        //System.out.println(systemOutContent2.toString().trim().replaceAll(newLine," "));
+        assertEquals("Mauvais montant !!!\nTransaction invalidée !!!",systemOutContent2.toString().substring(taille-(lenght+8),taille-(lenght-37)));
+
+        try {
+            systemOutContent2.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
