@@ -125,7 +125,7 @@ public class MachineConversion {
 	}
 
 	// convert euro to franc
-	private boolean convert(double montant, Devise devise) {
+	protected boolean convert(double montant, Devise devise) {
 		List<Double> result = new ArrayList<>();
 		List<PieceQuantite> list = devise.getListPieces();
 		double montantConv; // montant converti
@@ -209,7 +209,7 @@ public class MachineConversion {
 	/*
 		 rajouter les pieces introduites par l'utilisateur au stock de depart
 	 */
-	private void maj_stock_pieces(Devise devise, List<Double> monnaieListUser) {
+	protected void maj_stock_pieces(Devise devise, List<Double> monnaieListUser) {
 
 		for (Double monnaie : monnaieListUser) {
 			PieceQuantite pieceQuantite = new PieceQuantite();
