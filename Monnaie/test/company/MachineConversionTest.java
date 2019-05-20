@@ -72,7 +72,7 @@ class MachineConversionTest {
         assertEquals(1,franc.getListPieces().get(1).getMontant());
         assertEquals(11,franc.getListPieces().get(1).getQuantite());
         assertEquals(2,franc.getListPieces().get(2).getMontant());
-        assertEquals(5,franc.getListPieces().get(2).getQuantite());
+        assertEquals(10,franc.getListPieces().get(2).getQuantite());
         assertEquals(5,franc.getListPieces().get(3).getMontant());
         assertEquals(6,franc.getListPieces().get(3).getQuantite());
         assertEquals(10,franc.getListPieces().get(4).getMontant());
