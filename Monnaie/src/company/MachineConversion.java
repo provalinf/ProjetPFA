@@ -27,6 +27,14 @@ public class MachineConversion {
 		franc = new Franc();
 	}
 
+	public Euro getEuro() {
+		return euro;
+	}
+
+	public Franc getFranc() {
+		return franc;
+	}
+
 	public void conversion() {
 		String saisie;
 		do {
