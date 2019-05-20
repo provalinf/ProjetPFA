@@ -3,7 +3,6 @@ package company.Devise;
 import company.PieceQuantite;
 import company.Symbole;
 import company.TypeMonnaie;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;

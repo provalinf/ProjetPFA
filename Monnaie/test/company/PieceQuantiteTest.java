@@ -1,6 +1,5 @@
 package company;
 
-import company.Devise.Devise;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
