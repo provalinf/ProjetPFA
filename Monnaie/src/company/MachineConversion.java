@@ -5,7 +5,6 @@ import company.Devise.Euro;
 import company.Devise.Franc;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -128,8 +127,7 @@ public class MachineConversion {
 	// convert euro to franc
 	protected boolean convert(double montant, Devise devise) {
 		List<Double> result = new ArrayList<>();
-		List<PieceQuantite> list = new ArrayList<>();
-		list.addAll(devise.getListPieces());
+		List<PieceQuantite> list = devise.getListPieces().stream().map(PieceQuantite::copyPiece).collect(Collectors.toList());
 		double montantConv; // montant converti
 		int nbPiecesCentimes;
 
@@ -161,11 +159,11 @@ public class MachineConversion {
 
 		// traiter le reste de lapartie entiere avec des pieces de moins de 1 (des centimes)
 		partieEntiere *= 100; // to match cents which are already multiplied by 100 in the reserve
-		for (int i = nbPiecesCentimes - 1; i >= 0 ; i--) {
+		for (int i = nbPiecesCentimes - 1; i >= 0; i--) {
 			piece = list.get(i);
 
-			while ((piece.getQuantite() > 0) && ((partieEntiere -  piece.getMontant()) >= 0)) {
-				partieEntiere -=  piece.getMontant();
+			while ((piece.getQuantite() > 0) && ((partieEntiere - piece.getMontant()) >= 0)) {
+				partieEntiere -= piece.getMontant();
 				piece.setQuantite(piece.getQuantite() - 1);
 				result.add(Double.parseDouble("0." + piece.getMontant()));
 			}
@@ -195,26 +193,26 @@ public class MachineConversion {
 			case EUR:
 				// le cas où nous sommes à moins de 2 cents du dixième d’euro supérieur
 				if ((piece.getMontant() - partieFract) < 2) {
-					if ((piece.getMontant() - partieFract) >= 0){
+					if ((piece.getMontant() - partieFract) >= 0) {
 						if (piece.getQuantite() > 0) {
 							piece.setQuantite(piece.getQuantite() - 1);
 							result.add(Double.parseDouble("0." + piece.getMontant()));
 						} else
 							return false; // montant indisponible
-					}else
-						return  false; // montant indisponible
+					} else
+						return false; // montant indisponible
 				}
 				break;
 			case CHF:
 				// le cas où nous sommes à moins de 10 centimes du demi-franc suisse supérieur
 				if ((piece.getMontant() - partieFract) < 10) {
-					if ((piece.getMontant() - partieFract) >= 0){
+					if ((piece.getMontant() - partieFract) >= 0) {
 						if (piece.getQuantite() > 0) {
 							piece.setQuantite(piece.getQuantite() - 1);
 							result.add(Double.parseDouble("0." + piece.getMontant()));
 						} else
 							return false; // montant indisponible
-					}else
+					} else
 						return false; // montant indisponible
 
 				}

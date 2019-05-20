@@ -49,4 +49,13 @@ public class PieceQuantite {
 	public void setTypeMonnaie(TypeMonnaie typeMonnaie) {
 		this.typeMonnaie = typeMonnaie;
 	}
+
+	public PieceQuantite copyPiece() {
+		PieceQuantite newP = new PieceQuantite();
+		newP.montant = montant;
+		newP.quantite = quantite;
+		newP.symbole = symbole;
+		newP.typeMonnaie = typeMonnaie;
+		return newP;
+	}
 }
