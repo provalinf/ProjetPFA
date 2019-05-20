@@ -204,11 +204,9 @@ class MachineConversionTest {
 
         MachineConversion machineConversion = new MachineConversion();
         machineConversion.conversion();
-        int lenght  =("78\tCHF\\t40 Centimes (CHF\\t50 20 5 2 1 )").length();
+        int lenght  =("78\tCHF\t40 Centimes (CHF\t50 20 5 2 1 )").length();
         int taille = systemOutContent2.toString().length();
-        //assertTrue(systemOutContent2.toString().endsWith("78\tCHF\t40 Centimes (CHF\t50 20 5 2 1 )"));
-        //System.out.println(systemOutContent2.toString().trim().replaceAll(newLine," "));
-        assertEquals("78\tCHF\t40 Centimes 0 40 (CHF\t50 20 5 2 1 )",systemOutContent2.toString().substring(taille-lenght-4,taille+lenght-40).trim().replaceAll(newLine," "));
+        assertEquals("78\tCHF\t40 Centimes 0 40 (CHF\t50 20 5 2 1 )",systemOutContent2.toString().substring(taille-(lenght+6),taille+lenght-38).trim().replaceAll(newLine," "));
 
         try {
             systemOutContent2.flush();
