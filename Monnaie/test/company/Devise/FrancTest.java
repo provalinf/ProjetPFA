@@ -6,6 +6,8 @@ import company.TypeMonnaie;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +82,10 @@ class FrancTest {
 
     @Test
     void affichageEtAjout() {
+        ByteArrayOutputStream systemOutContent;
+        systemOutContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent));
+
         List<Double> list = new ArrayList<>();
         franc.affichageEtAjout(1,list);
         assertEquals(1,list.size());
@@ -90,6 +96,9 @@ class FrancTest {
         franc.affichageEtAjout(50,list);
         assertEquals(3,list.size());
         assertEquals(50,list.get(2));
+
+        String newLine = System.getProperty("line.separator");
+        assertEquals("Introduction d’une piece de 1.0 CHF puis d’un billet de 20.0 CHF puis d’un billet de 50.0 CHF",systemOutContent.toString().trim().replaceAll(newLine," "));
     }
 
     @Test

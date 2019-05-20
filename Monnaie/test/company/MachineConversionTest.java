@@ -3,21 +3,24 @@ package company;
 import company.Devise.Devise;
 import company.Devise.Euro;
 import company.Devise.Franc;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
+import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MachineConversionTest {
-
-    private MachineConversion mc = new MachineConversion();
     private Euro euro = new Euro();
     private Franc franc = new Franc();
 
     @Test
     void maj_stock_pieces() {
+        MachineConversion mc = new MachineConversion();
         List<Double> ld = new ArrayList<>();
         ld.add(0.10);
         ld.add(0.50);
@@ -88,14 +91,89 @@ class MachineConversionTest {
 
     @Test
     void convert() {
+        ByteArrayOutputStream systemOutContent;
+        systemOutContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent));
+        String newLine = System.getProperty("line.separator");
+
+        MachineConversion mc1 = new MachineConversion();
+        //assertTrue(mc1.convert(58.50,euro));
+        assertTrue(mc1.convert(26.00,euro));
+
+        assertEquals("23\tEUR\t21 Centimes (EUR\t20 2 1 0.2 )",systemOutContent.toString().trim().replaceAll(newLine," "));
+
+        ByteArrayOutputStream systemOutContent2;
+        systemOutContent2 = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent2));
+
+        assertTrue(mc1.convert(28.00,euro));
+        assertEquals("24\tEUR\t99 Centimes (EUR\t20 2 2 0.5 0.2 0.2 0.1 )",systemOutContent2.toString().trim().replaceAll(newLine," "));
+
+        ByteArrayOutputStream systemOutContent3;
+        systemOutContent3 = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent3));
+
         MachineConversion mc2 = new MachineConversion();
-        assertFalse(mc2.convert(452,euro));
-        assertTrue(mc2.convert(451.00,euro));
+        assertTrue(mc2.convert(51.00,franc));
+
+        assertEquals("57\tCHF\t12 Centimes (CHF\t50 5 2 )",systemOutContent3.toString().trim().replaceAll(newLine," "));
+
+        ByteArrayOutputStream systemOutContent4;
+        systemOutContent4 = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent4));
+
+        assertTrue(mc2.convert(18.30,franc));
+        assertEquals("20\tCHF\t49 Centimes (CHF\t20 0.5 )",systemOutContent4.toString().trim().replaceAll(newLine," "));
+
+        ByteArrayOutputStream systemOutContent5;
+        systemOutContent5 = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent5));
+
+        MachineConversion mc3 = new MachineConversion();
+        assertTrue(mc3.convert(767.90,franc));
+
+        assertEquals("860\tCHF\t4 Centimes (CHF\t100 100 100 100 50 50 50 50 50 20 20 20 20 20 10 10 10 10 10 5 5 5 5 5 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 )",systemOutContent5.toString().trim().replaceAll(newLine," "));
+
+        ByteArrayOutputStream systemOutContent6;
+        systemOutContent6 = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent6));
 
         MachineConversion mc4 = new MachineConversion();
-        assertFalse(mc4.convert(768.40,franc));
-        assertTrue(mc4.convert(767.90,franc));
+
+        assertTrue(mc4.convert(451.00,euro));
+        assertEquals("402\tEUR\t67 Centimes (EUR\t50 50 50 50 20 20 20 20 20 10 10 10 10 10 5 5 5 5 5 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.1 0.1 0.1 0.1 0.1 0.1 )",systemOutContent6.toString().trim().replaceAll(newLine," "));
     }
 
+    @Test
+    void afficherListe(){
+        ByteArrayOutputStream systemOutContent;
+        ByteArrayOutputStream systemOutContent2;
+        systemOutContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent));
 
+        MachineConversion m = new MachineConversion();
+        List<Double> l = new ArrayList<>();
+        l.add(10.0);
+        l.add(10.0);
+        l.add(50.0);
+        l.add(1.0);
+        l.add(0.20);
+        m.afficherListe(Devise.CodeISO.EUR, l);
+        assertEquals("(EUR\t10 10 50 1 0.2 )",systemOutContent.toString().trim());
+
+        systemOutContent2 = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(systemOutContent2));
+
+        MachineConversion m2 = new MachineConversion();
+        List<Double> l2 = new ArrayList<>();
+        l2.add(0.50);
+        l2.add(0.50);
+        l2.add(0.50);
+        l2.add(2.0);
+        l2.add(2.0);
+        l2.add(20.0);
+        l2.add(100.0);
+        m.afficherListe(Devise.CodeISO.CHF, l2);
+        assertEquals("(CHF\t0.5 0.5 0.5 2 2 20 100 )",systemOutContent2.toString().trim());
+    }
 }

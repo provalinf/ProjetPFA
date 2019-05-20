@@ -113,7 +113,7 @@ public class MachineConversion {
 	}
 
 	// affiche une liste dont la tete est le type de monnaie suivi des pieces introduites par l'utilisateur
-	private void afficherListe(Devise.CodeISO typeMonnaie, List<Double> list) {
+	protected void afficherListe(Devise.CodeISO typeMonnaie, List<Double> list) {
 		System.out.print("(" + typeMonnaie + "\t");
 		list.forEach(e -> {
 			if (e < 1.0)
@@ -251,6 +251,5 @@ public class MachineConversion {
 
 		}
 	}
-
 }
 
