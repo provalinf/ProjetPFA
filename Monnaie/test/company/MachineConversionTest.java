@@ -246,7 +246,7 @@ class MachineConversionTest {
         int taille = systemOutContent2.toString().length();
         //assertTrue(systemOutContent2.toString().endsWith("78\tCHF\t40 Centimes (CHF\t50 20 5 2 1 )"));
         //System.out.println(systemOutContent2.toString().trim().replaceAll(newLine," "));
-        assertEquals("Mauvais montant !!!\nTransaction invalidée !!!",systemOutContent2.toString().substring(taille-(lenght+8),taille-(lenght-37)));
+        assertEquals("Mauvais montant !!! Transaction invalidée !!!",systemOutContent2.toString().replaceAll(newLine," ").substring(taille-(lenght+17),taille-(lenght-28)));
 
         try {
             systemOutContent2.flush();
