@@ -87,18 +87,20 @@ class MachineConversionTest {
 
     @Test
     void convert() {
+        String newLine = System.getProperty("line.separator");
+
+        //Arrondi inférieur EURO
         ByteArrayOutputStream systemOutContent;
         systemOutContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(systemOutContent));
-        String newLine = System.getProperty("line.separator");
-
         Euro euro = new Euro();
         Franc franc = new Franc();
         MachineConversion mc1 = new MachineConversion();
-        assertTrue(mc1.convert(26.00,euro));
 
+        assertTrue(mc1.convert(26.00,euro));
         assertEquals("23\tEUR\t21 Centimes 0 1 (EUR\t20 2 1 0.2 )",systemOutContent.toString().trim().replaceAll(newLine," "));
 
+        //Arrondi supérieur EURO
         ByteArrayOutputStream systemOutContent2;
         systemOutContent2 = new ByteArrayOutputStream();
         System.setOut(new PrintStream(systemOutContent2));
@@ -106,17 +108,18 @@ class MachineConversionTest {
         assertTrue(mc1.convert(28.00,euro));
         assertEquals("24\tEUR\t99 Centimes 0 9 (EUR\t20 2 2 0.5 0.2 0.2 0.1 )",systemOutContent2.toString().trim().replaceAll(newLine," "));
 
+        //Arrondi inférieur CHF
         ByteArrayOutputStream systemOutContent3;
         systemOutContent3 = new ByteArrayOutputStream();
         System.setOut(new PrintStream(systemOutContent3));
-
         Euro euro2 = new Euro();
         Franc franc2 = new Franc();
         MachineConversion mc2 = new MachineConversion();
-        assertTrue(mc2.convert(51.00,franc2));
 
+        assertTrue(mc2.convert(51.00,franc2));
         assertEquals("57\tCHF\t12 Centimes 0 12 (CHF\t50 5 2 )",systemOutContent3.toString().trim().replaceAll(newLine," "));
 
+        //Arrondi supérieur CHF
         ByteArrayOutputStream systemOutContent4;
         systemOutContent4 = new ByteArrayOutputStream();
         System.setOut(new PrintStream(systemOutContent4));
@@ -124,19 +127,20 @@ class MachineConversionTest {
         assertTrue(mc2.convert(18.30,franc));
         assertEquals("20\tCHF\t49 Centimes 0 49 (CHF\t20 0.5 )",systemOutContent4.toString().trim().replaceAll(newLine," "));
 
+        //Limite max demande initial CHF
         ByteArrayOutputStream systemOutContent5;
         systemOutContent5 = new ByteArrayOutputStream();
         System.setOut(new PrintStream(systemOutContent5));
         Franc franc3 = new Franc();
         MachineConversion mc3 = new MachineConversion();
-        assertTrue(mc3.convert(767.80,franc3));
 
+        assertTrue(mc3.convert(767.90,franc3));
         assertEquals("860\tCHF\t4 Centimes (CHF\t100 100 100 100 50 50 50 50 50 20 20 20 20 20 10 10 10 10 10 5 5 5 5 5 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 )",systemOutContent5.toString().trim().replaceAll(newLine," "));
 
+        ////Limite max demande initial EURO
         ByteArrayOutputStream systemOutContent6;
         systemOutContent6 = new ByteArrayOutputStream();
         System.setOut(new PrintStream(systemOutContent6));
-
         Euro euro4 = new Euro();
         MachineConversion mc4 = new MachineConversion();
 
