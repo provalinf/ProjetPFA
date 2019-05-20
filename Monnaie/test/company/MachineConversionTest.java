@@ -11,11 +11,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MachineConversionTest {
-    private Euro euro = new Euro();
-    private Franc franc = new Franc();
-
     @Test
     void maj_stock_pieces() {
+        Euro euro = new Euro();
+        Franc franc = new Franc();
+
         MachineConversion mc = new MachineConversion();
         List<Double> ld = new ArrayList<>();
         ld.add(0.10);
