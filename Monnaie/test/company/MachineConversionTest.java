@@ -135,7 +135,7 @@ class MachineConversionTest {
         MachineConversion mc3 = new MachineConversion();
 
         assertTrue(mc3.convert(767.90,franc3));
-        assertEquals("860\tCHF\t4 Centimes (CHF\t100 100 100 100 50 50 50 50 50 20 20 20 20 20 10 10 10 10 10 5 5 5 5 5 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 )",systemOutContent5.toString().trim().replaceAll(newLine," "));
+        assertEquals("860\tCHF\t4 Centimes 0 4 (CHF\t100 100 100 100 50 50 50 50 50 20 20 20 20 20 10 10 10 10 10 5 5 5 5 5 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 )",systemOutContent5.toString().trim().replaceAll(newLine," "));
 
         ////Limite max demande initial EURO
         ByteArrayOutputStream systemOutContent6;

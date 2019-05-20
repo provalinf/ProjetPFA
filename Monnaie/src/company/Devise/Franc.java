@@ -14,7 +14,7 @@ public class Franc extends Devise {
 	private void initPieceEuro() {
 		PieceQuantite piece50F_C = new PieceQuantite(50, 10, Symbole.CENTIME, TypeMonnaie.PIECE);
 		PieceQuantite piece1F = new PieceQuantite(1, 10, Symbole.FRANC, TypeMonnaie.PIECE);
-		PieceQuantite piece2F = new PieceQuantite(2, 5, Symbole.FRANC, TypeMonnaie.PIECE);
+		PieceQuantite piece2F = new PieceQuantite(2, 10, Symbole.FRANC, TypeMonnaie.PIECE);
 		PieceQuantite billet5F = new PieceQuantite(5, 5, Symbole.FRANC, TypeMonnaie.PIECE);
 		PieceQuantite billet10F = new PieceQuantite(10, 5, Symbole.FRANC, TypeMonnaie.BILLET);
 		PieceQuantite billet20F = new PieceQuantite(20, 5, Symbole.FRANC, TypeMonnaie.BILLET);
