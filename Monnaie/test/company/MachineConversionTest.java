@@ -11,6 +11,41 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MachineConversionTest {
+    /*Utiliser pour pouvoir retirer le resultat espéré  lors d'une transacton valide */
+    public static String mercenaire(String liste) {
+        String[] lines = liste.split("\n");
+
+        String lines1 = new String() ;
+        for(int i=0;i<lines.length;i++) {
+            if(i>10 && i<lines.length) {
+
+                lines1 =lines1+lines[i] ;
+            }
+        }
+
+
+        return lines1;
+
+    }
+
+    /*Utiliser pour pouvoir retirer le resultat espéré  lors d'une transacton invalide */
+    public static String mercenaire1(String liste) {
+        String[] lines = liste.split("\n");
+
+        String lines1 = new String() ;
+        for(int i=0;i<lines.length;i++) {
+            if(i>5 && i<lines.length-1) {
+
+                lines1 =lines1+lines[i] ;
+            }
+        }
+
+
+        return lines1;
+
+    }
+
+
     @Test
     void maj_stock_pieces() {
         Euro euro = new Euro();
@@ -204,9 +239,10 @@ class MachineConversionTest {
 
         MachineConversion machineConversion = new MachineConversion();
         machineConversion.conversion();
-        int lenght  =("78\tCHF\t40 Centimes (CHF\t50 20 5 2 1 )").length();
-        int taille = systemOutContent2.toString().length();
-        assertEquals("78\tCHF\t40 Centimes 0 40 (CHF\t50 20 5 2 1 )",systemOutContent2.toString().substring(taille-(lenght+6),taille+lenght-38).trim().replaceAll(newLine," "));
+
+        String lines = mercenaire(systemOutContent2.toString());
+
+        assertEquals("78\tCHF\t40 Centimes040(CHF\t50 20 5 2 1 )",lines);
 
         try {
             systemOutContent2.flush();
@@ -241,12 +277,8 @@ class MachineConversionTest {
 
         MachineConversion mc3 = new MachineConversion();
         mc3.conversion();
-
-        int lenght  =("Mauvais montant !!!\nTransaction invalidée !!!").length();
-        int taille = systemOutContent2.toString().length();
-        //assertTrue(systemOutContent2.toString().endsWith("78\tCHF\t40 Centimes (CHF\t50 20 5 2 1 )"));
-        //System.out.println(systemOutContent2.toString().trim().replaceAll(newLine," "));
-        assertEquals("Mauvais montant !!! Transaction invalidée !!!",systemOutContent2.toString().replaceAll(newLine," ").substring(taille-(lenght+17),taille-(lenght-28)));
+        String  lines  = mercenaire1(systemOutContent2.toString());
+        assertEquals("Mauvais montant !!!Transaction invalidée !!!",lines);
 
         try {
             systemOutContent2.flush();
