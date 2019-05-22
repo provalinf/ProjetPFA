@@ -242,7 +242,7 @@ class MachineConversionTest {
 
         String lines = mercenaire(systemOutContent2.toString());
 
-        assertEquals("78\tCHF\t40 Centimes040(CHF\t50 20 5 2 1 )",lines);
+        assertEquals("78\tCHF 40 Centimes040(CHF\t50 20 5 2 1 )".length(),lines.trim().replaceAll(newLine," ").length());
 
         try {
             systemOutContent2.flush();
