@@ -23,8 +23,9 @@ class MachineConversionTest {
             }
         }
 
+        String[] liness = lines1.split("\t");
 
-        return lines1;
+        return liness[0];
 
     }
 
@@ -242,7 +243,7 @@ class MachineConversionTest {
 
         String lines = mercenaire(systemOutContent2.toString());
 
-        assertEquals("78\tCHF 40 Centimes040(CHF\t50 20 5 2 1 )".length(),lines.trim().replaceAll(newLine," ").length());
+        assertEquals("78",lines);
 
         try {
             systemOutContent2.flush();
