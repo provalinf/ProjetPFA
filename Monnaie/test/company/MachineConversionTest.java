@@ -177,7 +177,6 @@ class MachineConversionTest {
 		systemOutContent2 = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(systemOutContent2));
 
-		MachineConversion m2 = new MachineConversion();
 		List<Double> l2 = new ArrayList<>();
 		l2.add(0.50);
 		l2.add(0.50);
@@ -236,7 +235,7 @@ class MachineConversionTest {
 	private void forceKeyboardReflection(StringBuilder keyboard) {
 		try {
 			Field field = MachineConversion.class.getDeclaredField("scanner");
-			boolean isModifierAccessible = field.isAccessible();
+			//boolean isModifierAccessible = field.isAccessible();
 			field.setAccessible(true);
 			Scanner scan = new Scanner(new ByteArrayInputStream(keyboard.toString().getBytes()));
 			field.set(this, scan);
