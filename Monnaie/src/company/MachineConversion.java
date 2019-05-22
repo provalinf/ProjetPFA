@@ -178,7 +178,6 @@ public class MachineConversion {
 		}
 
 		// Montant indisponible
-		System.out.println(partieEntiere);
 		if (partieEntiere != 0) return false;
 
 		// retourne les pieces necessaires pour la partie fractionnaire du montant conerti
@@ -227,7 +226,6 @@ public class MachineConversion {
 				break;
 		}
 
-		System.out.println(partieFract);
 		// Afficher les pieces et billets rendus à l'utilisateur
 		afficherListe(devise.getNomDevise(), result);
 		// Mise à jour des quantités de pieces en enlevant celle qui ont été rendues à l'utilisateur
