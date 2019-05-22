@@ -86,13 +86,13 @@ class EuroTest {
 		List<Double> list = new ArrayList<>();
 		euro.affichageEtAjout(10, list);
 		assertEquals(1, list.size());
-		assertEquals(10, list.get(0));
+		assertEquals(new Double(10), new Double(list.get(0)));
 		euro.affichageEtAjout(10, list);
 		assertEquals(2, list.size());
-		assertEquals(10, list.get(1));
+		assertEquals(new Double(10), new Double(list.get(1)));
 		euro.affichageEtAjout(50, list);
 		assertEquals(3, list.size());
-		assertEquals(50, list.get(2));
+		assertEquals(new Double(50), new Double(list.get(2)));
 
 		String newLine = System.getProperty("line.separator");
 		assertEquals("Introduction d’un billet de 10.0 EUR puis d’un billet de 10.0 EUR puis d’un billet de 50.0 EUR", systemOutContent.toString().trim().replaceAll(newLine, " "));

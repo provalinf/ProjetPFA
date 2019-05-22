@@ -83,13 +83,13 @@ class FrancTest {
 		List<Double> list = new ArrayList<>();
 		franc.affichageEtAjout(1, list);
 		assertEquals(1, list.size());
-		assertEquals(1, list.get(0));
+		assertEquals(new Double(1), new Double(list.get(0)));
 		franc.affichageEtAjout(20, list);
 		assertEquals(2, list.size());
-		assertEquals(20, list.get(1));
+		assertEquals(new Double(20), new Double(list.get(1)));
 		franc.affichageEtAjout(50, list);
 		assertEquals(3, list.size());
-		assertEquals(50, list.get(2));
+		assertEquals(new Double(50), new Double(list.get(2)));
 
 		String newLine = System.getProperty("line.separator");
 		assertEquals("Introduction d’une piece de 1.0 CHF puis d’un billet de 20.0 CHF puis d’un billet de 50.0 CHF", systemOutContent.toString().trim().replaceAll(newLine, " "));
