@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -17,40 +16,6 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MachineConversionTest {
-	/*Utiliser pour pouvoir retirer le resultat espéré  lors d'une transacton valide */
-	public static String mercenaire(String liste) {
-		String[] lines = liste.split("\n");
-
-		String lines1 = new String();
-		for (int i = 0; i < lines.length; i++) {
-			if (i > 10 && i < lines.length) {
-
-				lines1 = lines1 + lines[i];
-			}
-		}
-
-
-		return lines[0];
-
-	}
-
-	/*Utiliser pour pouvoir retirer le resultat espéré  lors d'une transacton invalide */
-	public static String mercenaire1(String liste) {
-		String[] lines = liste.split("\n");
-
-		String lines1 = new String();
-		for (int i = 0; i < lines.length; i++) {
-			if (i > 5 && i < lines.length - 1) {
-
-				lines1 = lines1 + lines[i];
-			}
-		}
-
-
-		return lines1;
-
-	}
-
 
 	@Test
 	void maj_stock_pieces() {
@@ -227,8 +192,6 @@ class MachineConversionTest {
 
 	@Test
 	void conversion() {
-
-
 		StringBuilder keyboard = new StringBuilder();
 		keyboard.append("get-chf");
 		keyboard.append(System.lineSeparator());
@@ -237,61 +200,38 @@ class MachineConversionTest {
 		keyboard.append(20);
 		keyboard.append(System.lineSeparator());
 		keyboard.append("end");
-		//keyboard.append("fin");
 
 		forceKeyboardReflection(keyboard);
 
 		ByteArrayOutputStream systemOutContent2 = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(systemOutContent2));
-		String newLine = System.getProperty("line.separator");
 
 		MachineConversion machineConversion = new MachineConversion();
-
 		machineConversion.conversion();
 
-		String lines = mercenaire(systemOutContent2.toString());
-
-		assertEquals("78", lines);
-
-		try {
-			systemOutContent2.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-
+		assertTrue(mercenaire3000(systemOutContent2.toString()).contains(mercenaire3000("78\tCHF\t40 Centimes040(CHF\t50 20 5 2 1 )")));
 	}
 
 
 	@Test
 	void conversionInvalide() {
-
 		StringBuilder keyboard = new StringBuilder();
 		keyboard.append("get-euros");
 		keyboard.append(System.lineSeparator());
 		keyboard.append(1000);
 		keyboard.append(System.lineSeparator());
-		//  keyboard.append(20);
-		//keyboard.append(System.lineSeparator());
 		keyboard.append("end");
+
 		forceKeyboardReflection(keyboard);
 
 		ByteArrayOutputStream systemOutContent2 = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(systemOutContent2));
-		String newLine = System.getProperty("line.separator");
 
 		MachineConversion mc3 = new MachineConversion();
 		mc3.conversion();
-		String lines = mercenaire1(systemOutContent2.toString());
-		assertEquals("Mauvais montant !!!Transaction invalidée !!!", lines);
-
-		try {
-			systemOutContent2.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		assertTrue(mercenaire3000(systemOutContent2.toString()).contains(mercenaire3000("Mauvais montant !!!Transaction invalidée !!!")));
 	}
+
 
 	private void forceKeyboardReflection(StringBuilder keyboard) {
 		try {
@@ -303,6 +243,12 @@ class MachineConversionTest {
 		} catch (NoSuchFieldException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private String mercenaire3000(String string) {
+		String withoutSpace = string.trim().replaceAll(" ", "");
+		String withoutNewLine = withoutSpace.replaceAll("\r", "").replaceAll("\n", "");
+		return withoutNewLine.replaceAll("\t", "");
 	}
 
 }
