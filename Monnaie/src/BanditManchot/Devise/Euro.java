@@ -1,8 +1,8 @@
-package company.Devise;
+package BanditManchot.Devise;
 
-import company.PieceQuantite;
-import company.Symbole;
-import company.TypeMonnaie;
+import BanditManchot.PieceQuantite;
+import BanditManchot.Symbole;
+import BanditManchot.TypeMonnaie;
 
 public class Euro extends Devise {
 

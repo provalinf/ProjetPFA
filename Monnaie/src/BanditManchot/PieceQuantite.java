@@ -1,3 +1,6 @@
+package BanditManchot;
+
+
 public class PieceQuantite {
 
 	private int montant;

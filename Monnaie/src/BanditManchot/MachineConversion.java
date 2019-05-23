@@ -1,3 +1,9 @@
+package BanditManchot;
+
+import BanditManchot.Devise.Devise;
+import BanditManchot.Devise.Euro;
+import BanditManchot.Devise.Franc;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

@@ -1,3 +1,8 @@
+package BanditManchot.Devise;
+
+import BanditManchot.PieceQuantite;
+import BanditManchot.Symbole;
+import BanditManchot.TypeMonnaie;
 
 public class Franc extends Devise {
 

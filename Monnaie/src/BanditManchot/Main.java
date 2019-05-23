@@ -1,4 +1,4 @@
-package company;
+package BanditManchot;
 
 public class Main {
 

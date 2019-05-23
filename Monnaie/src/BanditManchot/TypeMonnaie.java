@@ -1,4 +1,4 @@
-package company;
+package BanditManchot;
 
 public enum TypeMonnaie {
 	BILLET,

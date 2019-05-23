@@ -1,8 +1,8 @@
-package company;
+package BanditManchot;
 
-import company.Devise.Devise;
-import company.Devise.Euro;
-import company.Devise.Franc;
+import BanditManchot.Devise.Devise;
+import BanditManchot.Devise.Euro;
+import BanditManchot.Devise.Franc;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

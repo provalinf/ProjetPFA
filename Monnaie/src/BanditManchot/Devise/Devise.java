@@ -1,3 +1,9 @@
+package BanditManchot.Devise;
+
+import BanditManchot.PieceQuantite;
+import BanditManchot.Symbole;
+import BanditManchot.TypeMonnaie;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
