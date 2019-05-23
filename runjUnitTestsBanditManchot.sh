@@ -5,15 +5,15 @@ mkdir bin
 cd Monnaie
 
 # compile
-javac -d ../bin -sourcepath src -cp .:test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar test/company/*.java test/company/Devise/*.java
+javac -d ../bin -sourcepath src -cp .:test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar test/BanditManchot/*.java test/BanditManchot/Devise/*.java
 
 #Windows
-#javac -d bin -sourcepath src -cp .;test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar test/company/*.java test/company/Devise/*.java
+#javac -d ../bin -sourcepath src -cp .;test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar test/BanditManchot/*.java test/BanditManchot/Devise/*.java
 
 cd ..
 
 #run
-java -jar test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar --cp bin/ -c company.Devise.EuroTest
-java -jar test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar --cp bin/ -c company.Devise.FrancTest
-java -jar test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar --cp bin/ -c company.PieceQuantiteTest
-java -jar test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar --cp bin/ -c company.MachineConversionTest
+java -jar Monnaie/test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar --cp bin/ -c BanditManchot.Devise.EuroTest
+java -jar Monnaie/test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar --cp bin/ -c BanditManchot.Devise.FrancTest
+java -jar Monnaie/test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar --cp bin/ -c BanditManchot.PieceQuantiteTest
+java -jar Monnaie/test/jUnit5.3.1/junit-platform-console-standalone-1.1.0.jar --cp bin/ -c BanditManchot.MachineConversionTest
